@@ -1,0 +1,358 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile"
+                 id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">{{ operation }} Event</h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a href="/admin/events" class="btn btn-clean kt-margin-r-10">
+                            <span class="kt-hidden-mobile">Cancel</span>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-brand" id="btn-save">
+                                <i class="la la-check"></i>
+                                <span class="kt-hidden-mobile">{{ operation }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <div id="formset-template" style="display: none;">
+                    {{ children.empty_form }}
+                </div>
+                <form class="kt-form" method="post" id="event-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="kt-portlet__body">
+                        <div class="kt-section kt-section--first">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {#                                    {{ form.profile_image.label_tag }}#}
+                                        {{ form.profile_image }}
+                                        {{ form.profile_image.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {% if form.instance.profile_image %}
+                                            <img src="{{ form.instance.profile_image.url }}" width="100px"
+                                                 height="100px" alt="">
+                                        {% else %}
+                                            <img src="" alt="">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.name.label_tag }}
+                                {{ form.name }}
+                                {{ form.name.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.event_type.label_tag }}
+                                {{ form.event_type }}
+                                {{ form.event_type.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                                {{ form.description.errors }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Start Date*</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.start_date_year.label_tag }}
+                                        {{ form.start_date_year }}
+                                        {{ form.start_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.start_date_month.label_tag }}
+                                        {{ form.start_date_month }}
+                                        {{ form.start_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.start_date_day.label_tag }}
+                                        {{ form.start_date_day }}
+                                        {{ form.start_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>End Date*</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.end_date_year.label_tag }}
+                                        {{ form.end_date_year }}
+                                        {{ form.end_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.end_date_month.label_tag }}
+                                        {{ form.end_date_month }}
+                                        {{ form.end_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.end_date_day.label_tag }}
+                                        {{ form.end_date_day }}
+                                        {{ form.end_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.event_url.label_tag }}
+                                {{ form.event_url }}
+                                {{ form.event_url.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.registration_url.label_tag }}
+                                {{ form.registration_url }}
+                                {{ form.registration_url.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.full_description.label_tag }}
+                                {{ form.full_description }}
+                                {{ form.full_description.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label>Venue Details</label>
+                                <hr>
+                                {{ form.venue_address.label_tag }}
+                                {{ form.venue_address }}
+                                {{ form.venue_address.errors }}
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    {{ form.country.label_tag }}
+                                    {{ form.country }}
+                                    {{ form.country.errors }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ form.city.label_tag }}
+                                    {{ form.city }}
+                                    {{ form.city.errors }}
+                                </div>
+                            </div>
+                            <div>
+                                {{ form.s2 }}
+                            </div>
+                            <div class="form-group">
+                                <label>Categories</label>
+                                <hr/>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    {{ form.category.label_tag }}
+                                    {{ form.category }}
+                                    {{ form.category.errors }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ form.sub_category.label_tag }}
+                                    {{ form.sub_category }}
+                                    {{ form.sub_category.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Event Appearances</label>
+                                <hr/>
+                            </div>
+                            <script type="text/html" id="item-template">
+                                <div id="item-__prefix__" class="item">
+                                    <div class="form-group">
+                                        <label>Participant</label>
+                                    </div>
+                                    <div class="form-group li-container">
+                                        {#                                        {{ children.empty_form.p_type.label_tag }}#}
+                                        {{ children.empty_form.p_type }}
+                                        {{ children.empty_form.p_type.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ children.empty_form.person.label_tag }}
+                                        {{ children.empty_form.person }}
+                                        {{ children.empty_form.person.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ children.empty_form.organization.label_tag }}
+                                        {{ children.empty_form.organization }}
+                                        {{ children.empty_form.organization.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ children.empty_form.appearance_type.label_tag }}
+                                        {{ children.empty_form.appearance_type }}
+                                        {{ children.empty_form.appearance_type.errors }}
+                                    </div>
+                                    <div class="form-group" style="display: none;">
+                                        {{ children.empty_form.deleted.label_tag }}
+                                        {{ children.empty_form.deleted }}
+                                        {{ children.empty_form.deleted.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-danger delete-participant" data-id="__prefix__">Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </script>
+                            {{ children.management_form }}
+                            <div id="items-form-container">
+                                {% for app_form in children %}
+                                    <div id="item-{{ forloop.counter0 }}" class="item">
+                                        {{ app_form.id }}
+                                        <div class="form-group">
+                                            <label>Participant</label>
+                                        </div>
+                                        <div class="form-group li-container">
+                                            {#                                            {{ app_form.p_type.label_tag }}#}
+                                            {{ app_form.p_type }}
+                                            {{ app_form.p_type.errors }}
+                                        </div>
+                                        <div class="form-group selection-container person-container
+                                        {% if mention_form.mention_type.value == 'person' %} shown {% endif %}">
+                                            {{ app_form.person.label_tag }}
+                                            {{ app_form.person }}
+                                            {{ app_form.person.errors }}
+                                        </div>
+                                        <div class="form-group selection-container organization-container
+                                        {% if mention_form.mention_type.value == 'organization' %} shown {% endif %}">
+                                            {{ app_form.organization.label_tag }}
+                                            {{ app_form.organization }}
+                                            {{ app_form.organization.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ app_form.appearance_type.label_tag }}
+                                            {{ app_form.appearance_type }}
+                                            {{ app_form.appearance_type.errors }}
+                                        </div>
+                                        <div class="form-group" style="display: none">
+                                            {#                                            {{ mention_form.event.label_tag }}#}
+                                            {{ app_form.deleted }}
+                                            {{ app_form.deleted.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-danger delete-participant"
+                                                    data-id="{{ forloop.counter0 }}">Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <button id="add-item-button" class="btn btn-info add-item">Add Participant</button>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Submit" style="display: none;" id="btn-submit-event">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!--end::Form-->
+            </div>
+        </div>
+
+        <!--end::Portlet-->
+    </div>
+    {#    </div>#}
+
+    <script>
+        (function () {
+
+            $("#items-form-container").on('click', '.radio-appearance-type', function (e) {
+                e.stopPropagation();
+                var pId = $(this).closest('.item').attr("id");
+                var $el = $('#' + pId);
+                var v = ($(this).val());
+                showSelectOption($el, v);
+            });
+
+            function showSelectOption($element, type) {
+                if (type === "") {
+                    $element.find('.selection-container').not('.shown').hide();
+                } else {
+                    $element.find('.selection-container').hide();
+                    $element.find('.' + type + '-container').show();
+                }
+            }
+
+            function show() {
+                var $el = $('.item');
+                showSelectOption($el, "");
+            }
+
+            show();
+
+
+            $('.add-item').click(function (ev) {
+                ev.preventDefault();
+                var count = $('#items-form-container').children().length;
+                var tmplMarkup = $('#item-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('#items-form-container').append(compiledTmpl);
+                $("#item-" + count).find('.django-select2').djangoSelect2();
+                // update form count
+                $('#id_cool-TOTAL_FORMS').attr('value', count + 1);
+            });
+
+            $("#country-select").change(function () {
+                var countryId = $(this).val();
+                $.ajax({
+                    url: '/admin/ajax/load-cities/',
+                    data: {
+                        'country': countryId
+                    },
+                    success: function (data) {
+                        $("#city-select").html(data);
+                    }
+                });
+            });
+
+            $("#category-select").change(function () {
+                var catId = $(this).val();
+                $.ajax({
+                    url: '/admin/ajax/event-subcategories/',
+                    data: {
+                        'categoryId': catId
+                    },
+                    success: function (data) {
+                        $("#sub-category-select").html(data);
+                    }
+                });
+            });
+
+            $('#btn-save').on('click', function () {
+                $('#btn-submit-event').click();
+
+            });
+
+            $('#items-form-container').on('click', '.delete-participant', function (e) {
+                e.preventDefault();
+                var itemId = $(this).attr('data-id');
+                var totalP = $('#items-form-container').find('.item').length;
+                console.log(totalP);
+                if (totalP > 1) {
+                    $('#items-form-container').find('#item-' + itemId).hide();
+                    $('#items-form-container').find('#item-' + itemId).find('.deleted').prop("selectedIndex", 1);
+                    {#var c = parseInt($('#id_cool-TOTAL_FORMS').attr('value')) - 1;#}
+                    {#$('#id_cool-TOTAL_FORMS').attr('value', c);#}
+                }
+            });
+        }());
+    </script>
+
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+										<span class="kt-portlet__head-icon">
+{#											<i class="kt-font-brand flaticon2-line-chart"></i>#}
+										</span>
+                        <h3 class="kt-portlet__head-title">
+                            Acquisitions
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <div class="kt-portlet__head-wrapper">
+                            <div class="kt-portlet__head-actions">
+                                <a href="/admin/acquisitions/add" class="btn btn-brand btn-elevate btn-icon-sm">
+                                    <i class="la la-plus"></i>
+                                    Create New Acquisition
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <!--begin: Datatable -->
+                    <table class="table table-striped- table-bordered table-hover table-checkable"
+                           id="person-datatable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Transaction Name</th>
+                            <th>Acquiring Organization</th>
+                            <th>Acquired Organization</th>
+                            <th>Announced Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <!--end: Datatable -->
+                </div>
+            </div>
+
+            <!--begin::Modal-->
+            <div class="modal fade" id="delete-notifier-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletion Notifier</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                has been the industry's standard dummy text ever since the 1500s, when an unknown
+                                printer took a galley of type and scrambled it to make a type specimen book. It has
+                                survived not only five centuries, but also the leap into electronic typesetting,
+                                remaining essentially unchanged. It was popularised in the 1960s with the release of
+                                Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                                publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+{#                            <button type="button" class="btn btn-primary">Save changes</button>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--end::Modal-->
+
+            <!--begin::Deletion Confirmation Modal-->
+            <div class="modal fade" id="delete-confirmation-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletion Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="btn-delete" data-id="">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--end::Deletion Confirmation Modal Modal-->
+
+        </div>
+
+        <!--end::Portlet-->
+    </div>
+
+
+    <script>
+        (function () {
+
+            var $deleteBtn = $('#btn-delete');
+            var $deletionConfirmationModal = $('#delete-confirmation-modal');
+            var $deleteNotifierModal = $('#delete-notifier-modal');
+
+            $("#person-datatable").on('click', '.delete-item', function () {
+                var itemId = $(this).attr('data-id');
+                $deleteBtn.attr('data-id', itemId);
+                $deletionConfirmationModal.modal();
+            });
+
+            $deleteBtn.on('click', function () {
+                $deletionConfirmationModal.modal('hide');
+                var itemId = $deleteBtn.attr('data-id');
+                $.ajax({
+                    url: '/admin/acquisitions/' + itemId + '/delete',
+                    method: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $deleteNotifierModal.find('p').html('Acquisition Deleted');
+                        $deleteNotifierModal.modal();
+                        $('.delete-item-' + itemId).closest('tr').remove();
+                    },
+                    error: function () {
+                        $deleteNotifierModal.find('p').html('Something went wrong. Please try again.');
+                        $deleteNotifierModal.modal();
+                    }
+                });
+            });
+
+            var dt_table = $('#person-datatable').DataTable({
+                order: [[1, "asc"]],
+                columnDefs: [
+                    {
+                        name: 'id',
+                        orderable: true,
+                        searchable: false,
+                        targets: [0]
+                    },
+                    {
+                        name: 'transaction_name',
+                        orderable: true,
+                        searchable: true,
+                        targets: [1]
+                    },
+                    {
+                        name: 'acquiring_organization',
+                        orderable: false,
+                        searchable: false,
+                        targets: [2]
+                    },
+                    {
+                        name: 'acquired_organization',
+                        orderable: false,
+                        searchable: false,
+                        targets: [3]
+                    },
+                    {
+                        name: 'announced_date_year',
+                        orderable: false,
+                        searchable: false,
+                        targets: [4]
+                    },
+                    {
+                        targets: [5],
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return '<a href="/admin/acquisitions/' + data + '/update"class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit">' +
+                                '<i class="la la-edit"></i></i></a> | <button  ' +
+                                'class="delete-item delete-item-'+ data +' btn btn-sm btn-clean btn-icon btn-icon-sm" data-id="' + data + '" title="Delete"><i class="flaticon2-trash"></i></button>';
+                        }
+                    }
+                ],
+                searching: true,
+                processing: true,
+                serverSide: true,
+                {#stateSave: true,#}
+                ajax: '/admin/acquisitions/datatable-data'
+            });
+        }());
+    </script>
+{% endblock %}

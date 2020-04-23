@@ -1,0 +1,380 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile"
+                 id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">{{ operation }} Funding Round
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a href="/admin/funding_rounds" class="btn btn-clean kt-margin-r-10">
+                            <span class="kt-hidden-mobile">Cancel</span>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-brand" id="btn-save">
+                                <i class="la la-check"></i>
+                                <span class="kt-hidden-mobile">{{ operation }} </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="kt-form" method="post">
+                    {% csrf_token %}
+                    <div class="kt-portlet__body">
+                        <div class="kt-section kt-section--first">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Organization</label>
+                                <hr>
+                            </div>
+                            <div class="form-group">
+                                {{ form.investee_organization.label_tag }}
+                                {{ form.investee_organization }}
+                                {{ form.investee_organization.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Details</label>
+                                <hr>
+                            </div>
+                            <div class="form-group">
+                                {{ form.funding_type.label_tag }}
+                                {{ form.funding_type }}
+                                {{ form.funding_type.errors }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Announced Date*</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.announced_date_year.label_tag }}
+                                        {{ form.announced_date_year }}
+                                        {{ form.announced_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.announced_date_month.label_tag }}
+                                        {{ form.announced_date_month }}
+                                        {{ form.announced_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.announced_date_day.label_tag }}
+                                        {{ form.announced_date_day }}
+                                        {{ form.announced_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Closed On Date</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.closed_date_year.label_tag }}
+                                        {{ form.closed_date_year }}
+                                        {{ form.closed_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.closed_date_month.label_tag }}
+                                        {{ form.closed_date_month }}
+                                        {{ form.closed_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.closed_date_day.label_tag }}
+                                        {{ form.closed_date_day }}
+                                        {{ form.closed_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        {{ form.money_raised.label_tag }}
+                                        {{ form.money_raised }}
+                                        {{ form.money_raised.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.money_raised_currency.label_tag }}
+                                        {{ form.money_raised_currency }}
+                                        {{ form.money_raised_currency.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        {{ form.target_funding.label_tag }}
+                                        {{ form.target_funding }}
+                                        {{ form.target_funding.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.target_funding_currency.label_tag }}
+                                        {{ form.target_funding_currency }}
+                                        {{ form.target_funding_currency.errors }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        {{ form.pre_money_valuation.label_tag }}
+                                        {{ form.pre_money_valuation }}
+                                        {{ form.pre_money_valuation.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.pre_money_valuation_currency.label_tag }}
+                                        {{ form.pre_money_valuation_currency }}
+                                        {{ form.pre_money_valuation_currency.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Investors</label>
+                                <hr>
+                            </div>
+                            <script type="text/html" id="item-template">
+                                <div id="item-__prefix__" class="item">
+                                    <div class="form-group li-container">
+                                        {#                                        {{ investor_form_set.empty_form.investor_type.label_tag }}#}
+                                        {{ investor_form_set.empty_form.investor_type }}
+                                        {{ investor_form_set.empty_form.investor_type.errors }}
+                                    </div>
+                                    <div class="form-group selection-container person-container">
+                                        {{ investor_form_set.empty_form.person.label_tag }}
+                                        {{ investor_form_set.empty_form.person }}
+                                        {{ investor_form_set.empty_form.person.errors }}
+                                    </div>
+                                    <div class="form-group selection-container organization-container">
+                                        {{ investor_form_set.empty_form.organization.label_tag }}
+                                        {{ investor_form_set.empty_form.organization }}
+                                        {{ investor_form_set.empty_form.organization.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ investor_form_set.empty_form.lead_investor.label_tag }}
+                                        {{ investor_form_set.empty_form.lead_investor }}
+                                        {{ investor_form_set.empty_form.lead_investor.errors }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                {{ investor_form_set.empty_form.money_raised.label_tag }}
+                                                {{ investor_form_set.empty_form.money_raised }}
+                                                {{ investor_form_set.empty_form.money_raised.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ investor_form_set.empty_form.money_raised_currency.label_tag }}
+                                                {{ investor_form_set.empty_form.money_raised_currency }}
+                                                {{ investor_form_set.empty_form.money_raised_currency.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        {{ investor_form_set.event.label_tag }}
+                                        {{ investor_form_set.empty_form.deleted }}
+                                        {{ investor_form_set.empty_form.deleted.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-danger delete-participant" data-id="__prefix__">Delete
+                                        </button>
+                                    </div>
+                                    <div class="form-group">
+                                        <hr>
+                                    </div>
+                                </div>
+                            </script>
+                            {{ investor_form_set.management_form }}
+
+                            <div id="items-form-container">
+                                {% for investor_form in investor_form_set %}
+                                    <div id="item-{{ forloop.counter0 }}" class="item">
+                                        {{ sub_organization_form.id }}
+                                        <div class="form-group li-container">
+                                            {#                                            {{ investor_form.investor_type.label_tag }}#}
+                                            {{ investor_form.investor_type }}
+                                            {{ investor_form.investor_type.errors }}
+                                        </div>
+                                        <div class="form-group selection-container person-container
+                                        {% if investor_form.investor_type.value == 'person' %} shown {% endif %}">
+                                            {{ investor_form.person.label_tag }}
+                                            {{ investor_form.person }}
+                                            {{ investor_form.person.errors }}
+                                        </div>
+                                        <div class="form-group selection-container organization-container
+                                        {% if investor_form.investor_type.value == 'organization' %} shown {% endif %}">
+                                            {{ investor_form.organization.label_tag }}
+                                            {{ investor_form.organization }}
+                                            {{ investor_form.organization.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ investor_form.lead_investor.label_tag }}
+                                            {{ investor_form.lead_investor }}
+                                            {{ investor_form.lead_investor.errors }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    {{ investor_form.money_raised.label_tag }}
+                                                    {{ investor_form.money_raised }}
+                                                    {{ investor_form.money_raised.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    {{ investor_form.money_raised_currency.label_tag }}
+                                                    {{ investor_form.money_raised_currency }}
+                                                    {{ investor_form.money_raised_currency.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="display: none">
+                                            {{ investor_form.deleted.label_tag }}
+                                            {{ investor_form.deleted }}
+                                            {{ investor_form.deleted.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-danger delete-participant"
+                                                    data-id="{{ forloop.counter0 }}">Delete
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <button id="add-item-button" class="btn btn-info add-item">Add Investor</button>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="btn-submit-event" value="Submit" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!--end::Form-->
+            </div>
+        </div>
+
+        <!--end::Portlet-->
+    </div>
+
+
+    <script>
+        (function () {
+
+            $('#id_industry_categories').multiselect({
+                enableClickableOptGroups: true,
+                enableFiltering: true
+            });
+
+            $("#country-select").change(function () {
+                var countryId = $(this).val();
+                $.ajax({
+                    url: '/admin/ajax/load-cities/',
+                    data: {
+                        'country': countryId
+                    },
+                    success: function (data) {
+                        $("#city-select").html(data);
+                    }
+                });
+            });
+
+
+            $('.add-item').click(function (ev) {
+                ev.preventDefault();
+                var count = $('#items-form-container').children().length;
+                var tmplMarkup = $('#item-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('#items-form-container').append(compiledTmpl);
+                $("#item-" + count).find('.django-select2').djangoSelect2();
+                // update form count
+                $('#id_investor-TOTAL_FORMS').attr('value', count + 1);
+                show();
+            });
+
+
+            $('#btn-save').on('click', function () {
+                $('#btn-submit-event').click();
+
+            });
+
+            $('#items-form-container').on('click', '.delete-participant', function (e) {
+                e.preventDefault();
+                var itemId = $(this).attr('data-id');
+                var totalP = $('#items-form-container').find('.item').length;
+                console.log(totalP);
+                if (totalP > 1) {
+                    $('#items-form-container').find('#item-' + itemId).hide();
+                    $('#items-form-container').find('#item-' + itemId).find('.deleted').prop("selectedIndex", 1);
+
+                    {#var c = parseInt($('#id_cool-TOTAL_FORMS').attr('value')) - 1;#}
+
+                    {#$('#id_cool-TOTAL_FORMS').attr('value', c);#}
+                }
+
+            });
+
+            $("#items-form-container").on('click', '.radio-investor-type', function (e) {
+                e.stopPropagation();
+                var pId = $(this).closest('.item').attr("id");
+                var $el = $('#' + pId);
+                var v = ($(this).val());
+                showSelectOption($el, v);
+            });
+
+            function showSelectOption($element, type) {
+                if (type === "") {
+                    $element.find('.selection-container').not('.shown').hide();
+                } else {
+                    $element.find('.selection-container').hide();
+                    $element.find('.' + type + '-container').show();
+                }
+            }
+
+            function show() {
+                var $el = $('.item');
+                showSelectOption($el, "");
+            }
+
+            show();
+
+            $('input[name="organization_type"]').on('click', function () {
+                var val = $(this).val();
+                if (val === "Company") {
+                    $('.investment-firm-type-field').find('select').val("");
+                    $('.investment-firm-type-field').hide();
+                    $('#company-type-field').show();
+                } else if (val === "Investment Firm") {
+                    $('#company-type-field').find('select').val("");
+                    $('.investment-firm-type-field').show();
+                    $('#company-type-field').hide();
+                }
+            });
+
+        }());
+    </script>
+{% endblock %}

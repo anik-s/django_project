@@ -1,0 +1,395 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile"
+                 id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">{{ operation }} Person
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a href="/admin/persons" class="btn btn-clean kt-margin-r-10">
+                            <span class="kt-hidden-mobile">Cancel</span>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-brand" id="btn-save">
+                                <i class="la la-check"></i>
+                                <span class="kt-hidden-mobile">{{ operation }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="kt-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="kt-portlet__body">
+                        <div class="kt-section kt-section--first">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {#                                    {{ form.profile_image.label_tag }}#}
+                                        {{ form.profile_image }}
+                                        {{ form.profile_image.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {% if form.profile_image %}
+                                            <img src="{{ form.profile_image.image.url }}" width="100px"
+                                                 height="100px" alt="">
+                                        {% else %}
+                                            <img src="" alt="">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group li-container">
+                                {#                                {{ form.type.label_tag }}#}
+                                {{ form.type }}
+                                {{ form.type.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.first_name.label_tag }}
+                                {{ form.first_name }}
+                                {{ form.first_name.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.last_name.label_tag }}
+                                {{ form.last_name }}
+                                {{ form.last_name.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.gender.label_tag }}
+                                {{ form.gender }}
+                                {{ form.gender.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.aka.label_tag }}
+                                {{ form.aka }}
+                                {{ form.aka.errors }}
+                            </div>
+                            <div class="form-group" id="investor-stage-container" {% if form.type == 'Person' %} style="display: none;" {% endif %}>
+                                {{ form.investor_stage.label_tag }}
+                                {{ form.investor_stage }}
+                                {{ form.investor_stage.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.website.label_tag }}
+                                {{ form.website }}
+                                {{ form.website.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.facebook.label_tag }}
+                                {{ form.facebook }}
+                                {{ form.facebook.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.linkedin.label_tag }}
+                                {{ form.linkedin }}
+                                {{ form.linkedin.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.twitter.label_tag }}
+                                {{ form.twitter }}
+                                {{ form.twitter.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.biography.label_tag }}
+                                {{ form.biography }}
+                                {{ form.biography.errors }}
+                            </div>
+                            <div class="from-group">
+                                <label style="font-weight: bold;">Primary Location</label>
+                                <hr>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    {{ form.country.label_tag }}
+                                    {{ form.country }}
+                                    {{ form.country.errors }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ form.city.label_tag }}
+                                    {{ form.city }}
+                                    {{ form.city.errors }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Job</label>
+                                <hr>
+                            </div>
+                            <script type="text/html" id="item-template">
+                                <div id="item-__prefix__" class="item">
+                                    <div class="form-group li-container">
+                                        {#                                        {{ mention_form_set.empty_form.mention_type.label_tag }}#}
+                                        {{ person_job_form_set.empty_form.position }}
+                                        {{ person_job_form_set.empty_form.position.errors }}
+                                    </div>
+                                    <div class="form-group li-container">
+                                        {#                                        {{ mention_form_set.empty_form.mention_type.label_tag }}#}
+                                        {{ person_job_form_set.empty_form.title }}
+                                        {{ person_job_form_set.empty_form.title.errors }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Start Date</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ person_job_form_set.empty_form.start_date_year.label_tag }}
+                                                {{ person_job_form_set.empty_form.start_date_year }}
+                                                {{ person_job_form_set.empty_form.start_date_year.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ person_job_form_set.empty_form.start_date_month.label_tag }}
+                                                {{ person_job_form_set.empty_form.start_date_month }}
+                                                {{ person_job_form_set.empty_form.start_date_month.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ person_job_form_set.empty_form.start_date_day.label_tag }}
+                                                {{ person_job_form_set.empty_form.start_date_day }}
+                                                {{ person_job_form_set.empty_form.start_date_day.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {{ person_job_form_set.empty_form.has_end_date.label_tag }}
+                                        {{ person_job_form_set.empty_form.has_end_date }}
+                                        {{ person_job_form_set.empty_form.has_end_date.errors }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>End Date</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ person_job_form_set.empty_form.end_date_year.label_tag }}
+                                                {{ person_job_form_set.empty_form.end_date_year }}
+                                                {{ person_job_form_set.empty_form.end_date_year.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ person_job_form_set.empty_form.end_date_month.label_tag }}
+                                                {{ person_job_form_set.empty_form.end_date_month }}
+                                                {{ person_job_form_set.empty_form.end_date_month.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ person_job_form_set.empty_form.end_date_day.label_tag }}
+                                                {{ person_job_form_set.empty_form.end_date_day }}
+                                                {{ person_job_form_set.empty_form.end_date_day.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        {#                                      {{ mention_form.event.label_tag }}#}
+                                        {{ person_job_form_set.empty_form.deleted }}
+                                        {{ person_job_form_set.empty_form.deleted.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-danger delete-participant" data-id="__prefix__">Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </script>
+                            {{ person_job_form_set.management_form }}
+                            <div id="items-form-container">
+                                {% for person_job_form in person_job_form_set %}
+                                    <div id="item-{{ forloop.counter0 }}" class="item">
+                                        {{ person_job_form.id }}
+                                        <div class="form-group">
+                                            {{ person_job_form.position.label_tag }}
+                                            {{ person_job_form.position }}
+                                            {{ person_job_form.position.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ person_job_form.title.label_tag }}
+                                            {{ person_job_form.title }}
+                                            {{ person_job_form.title.errors }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Start Date</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    {{ person_job_form.start_date_year.label_tag }}
+                                                    {{ person_job_form.start_date_year }}
+                                                    {{ person_job_form.start_date_year.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    {{ person_job_form.start_date_month.label_tag }}
+                                                    {{ person_job_form.start_date_month }}
+                                                    {{ person_job_form.start_date_month.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    {{ person_job_form.start_date_day.label_tag }}
+                                                    {{ person_job_form.start_date_day }}
+                                                    {{ person_job_form.start_date_day.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            {{ person_job_form.has_end_date.label_tag }}
+                                            {{ person_job_form.has_end_date }}
+                                            {{ person_job_form.has_end_date.errors }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>End Date</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    {{ person_job_form.end_date_year.label_tag }}
+                                                    {{ person_job_form.end_date_year }}
+                                                    {{ person_job_form.end_date_year.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    {{ person_job_form.end_date_month.label_tag }}
+                                                    {{ person_job_form.end_date_month }}
+                                                    {{ person_job_form.end_date_month.errors }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    {{ person_job_form.end_date_day.label_tag }}
+                                                    {{ person_job_form.end_date_day }}
+                                                    {{ person_job_form.end_date_day.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="display: none">
+                                            {#                                            {{ mention_form.event.label_tag }}#}
+                                            {{ person_job_form.deleted }}
+                                            {{ person_job_form.deleted.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-danger delete-participant"
+                                                    data-id="{{ forloop.counter0 }}">Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <button id="add-item-button" class="btn btn-info add-item">Add Job</button>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Founded Organizations</label>
+                                <hr>
+                            </div>
+                            <div class="form-group">
+                                {{ form.founded_organizations.label_tag }}
+                                {{ form.founded_organizations }}
+                                {{ form.founded_organizations.errors }}
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="btn-submit-event" value="Submit" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!--end::Form-->
+            </div>
+        </div>
+
+        <!--end::Portlet-->
+    </div>
+
+
+    <script>
+        (function () {
+
+            $("#country-select").change(function () {
+                var countryId = $(this).val();
+                $.ajax({
+                    url: '/admin/ajax/load-cities/',
+                    data: {
+                        'country': countryId
+                    },
+                    success: function (data) {
+                        $("#city-select").html(data);
+                    }
+                });
+            });
+
+
+            $('.add-item').click(function (ev) {
+                ev.preventDefault();
+                var count = $('#items-form-container').children().length;
+                var tmplMarkup = $('#item-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('#items-form-container').append(compiledTmpl);
+                $("#item-" + count).find('.django-select2').djangoSelect2();
+                // update form count
+                $('#id_job-TOTAL_FORMS').attr('value', count + 1);
+            });
+
+
+            $('#btn-save').on('click', function () {
+                $('#btn-submit-event').click();
+
+            });
+
+            $('#items-form-container').on('click', '.delete-participant', function (e) {
+                e.preventDefault();
+                var itemId = $(this).attr('data-id');
+                var totalP = $('#items-form-container').find('.item').length;
+                console.log(totalP);
+                if (totalP > 1) {
+                    $('#items-form-container').find('#item-' + itemId).hide();
+                    $('#items-form-container').find('#item-' + itemId).find('.deleted').prop("selectedIndex", 1);
+
+                    {#var c = parseInt($('#id_cool-TOTAL_FORMS').attr('value')) - 1;#}
+
+                    {#$('#id_cool-TOTAL_FORMS').attr('value', c);#}
+                }
+
+            });
+
+
+            /*
+            function showSelectOption(type) {
+                if (type === "") {
+                    $('.selection-container').not('.shown').hide();
+                } else {
+                    $('.selection-container').hide();
+                    $('.' + type + '-container').show();
+                }
+            }
+
+            showSelectOption("");
+            */
+            var $investorStageContainer = $('#investor-stage-container');
+            $('.radio-type').on('click', function (e) {
+                console.log($(this).val());
+                if($(this).val() === "Person") {
+                    $investorStageContainer.hide();
+                } else {
+                    $investorStageContainer.show();
+                }
+                e.stopPropagation();
+            });
+
+        }());
+    </script>
+{% endblock %}

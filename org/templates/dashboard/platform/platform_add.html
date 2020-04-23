@@ -1,0 +1,282 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile"
+                 id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">{{ operation }} Platform
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a href="/admin/platforms" class="btn btn-clean kt-margin-r-10">
+                            <span class="kt-hidden-mobile">Cancel</span>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-brand" id="btn-save">
+                                <i class="la la-check"></i>
+                                <span class="kt-hidden-mobile">{{ operation }} </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="kt-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="kt-portlet__body">
+                        <div class="kt-section kt-section--first">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {{ form.profile_image.label_tag }}
+                                    {{ form.profile_image }}
+                                    {{ form.profile_image.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    {% if form.instance.profile_image %}
+                                        <img src="{{ form.instance.profile_image.url }}" width="100px" height="100px" alt="">
+                                    {% else %}
+                                        <img src="" alt="">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.name.label_tag }}
+                                {{ form.name }}
+                                {{ form.name.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                                {{ form.description.errors }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Founded Date*</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.founded_date_year.label_tag }}
+                                        {{ form.founded_date_year }}
+                                        {{ form.founded_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.founded_date_month.label_tag }}
+                                        {{ form.founded_date_month }}
+                                        {{ form.founded_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.founded_date_day.label_tag }}
+                                        {{ form.founded_date_day }}
+                                        {{ form.founded_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Closed Date*</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.closed_date_year.label_tag }}
+                                        {{ form.closed_date_year }}
+                                        {{ form.closed_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.closed_date_month.label_tag }}
+                                        {{ form.closed_date_month }}
+                                        {{ form.closed_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.closed_date_day.label_tag }}
+                                        {{ form.closed_date_day }}
+                                        {{ form.closed_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.website.label_tag }}
+                                {{ form.website }}
+                                {{ form.website.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.facebook.label_tag }}
+                                {{ form.facebook }}
+                                {{ form.facebook.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.linkedin.label_tag }}
+                                {{ form.linkedin }}
+                                {{ form.linkedin.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.twitter.label_tag }}
+                                {{ form.twitter }}
+                                {{ form.twitter.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.contact_email.label_tag }}
+                                {{ form.contact_email }}
+                                {{ form.contact_email.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.phone_number.label_tag }}
+                                {{ form.phone_number }}
+                                {{ form.phone_number.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.full_description.label_tag }}
+                                {{ form.full_description }}
+                                {{ form.full_description.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Industry Category</label>
+                                 <hr>
+                            </div>
+                            <div class="form-group">
+                                {{ form.industry_categories.label_tag }}
+                                {{ form.industry_categories }}
+                                {{ form.industry_categories.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Platform Details</label>
+                                 <hr>
+                            </div>
+                            <label>Owned By</label>
+                            <div class="form-group">
+                                {{ form.owned_by_organization.label_tag }}
+                                {{ form.owned_by_organization }}
+                                {{ form.owned_by_organization.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.platform_business_model_type.label_tag }}
+                                {{ form.platform_business_model_type }}
+                                {{ form.platform_business_model_type.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.producers.label_tag }}
+                                {{ form.producers }}
+                                {{ form.producers.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.consumers.label_tag }}
+                                {{ form.consumers }}
+                                {{ form.consumers.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.partners.label_tag }}
+                                {{ form.partners }}
+                                {{ form.partners.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.transactions.label_tag }}
+                                {{ form.transactions }}
+                                {{ form.transactions.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.value.label_tag }}
+                                {{ form.value }}
+                                {{ form.value.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.network_effects.label_tag }}
+                                {{ form.network_effects }}
+                                {{ form.network_effects.errors }}
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="btn-submit-event" value="Submit" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!--end::Form-->
+            </div>
+        </div>
+
+        <!--end::Portlet-->
+    </div>
+
+
+    <script>
+        (function () {
+
+            $('#id_industry_categories').multiselect({
+                enableClickableOptGroups: true,
+                enableFiltering: true
+            });
+
+            $("#country-select").change(function () {
+                var countryId = $(this).val();
+                $.ajax({
+                    url: '/admin/ajax/load-cities/',
+                    data: {
+                        'country': countryId
+                    },
+                    success: function (data) {
+                        $("#city-select").html(data);
+                    }
+                });
+            });
+
+
+            $('.add-item').click(function (ev) {
+                ev.preventDefault();
+                var count = $('#items-form-container').children().length;
+                var tmplMarkup = $('#item-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('#items-form-container').append(compiledTmpl);
+                $("#item-" + count).find('.django-select2').djangoSelect2();
+                // update form count
+                $('#id_job-TOTAL_FORMS').attr('value', count + 1);
+            });
+
+
+            $('#btn-save').on('click', function () {
+                $('#btn-submit-event').click();
+
+            });
+
+            $('#items-form-container').on('click', '.delete-participant', function (e) {
+                e.preventDefault();
+                var itemId = $(this).attr('data-id');
+                var totalP = $('#items-form-container').find('.item').length;
+                console.log(totalP);
+                if (totalP > 1) {
+                    $('#items-form-container').find('#item-' + itemId).hide();
+                    $('#items-form-container').find('#item-' + itemId).find('.deleted').prop("selectedIndex", 1);
+
+                    {#var c = parseInt($('#id_cool-TOTAL_FORMS').attr('value')) - 1;#}
+
+                    {#$('#id_cool-TOTAL_FORMS').attr('value', c);#}
+                }
+
+            });
+
+
+            function showSelectOption(type) {
+                if (type === "") {
+                    $('.selection-container').not('.shown').hide();
+                } else {
+                    $('.selection-container').hide();
+                    $('.' + type + '-container').show();
+                }
+            }
+
+            showSelectOption("");
+
+        }());
+    </script>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile"
+                 id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">{{ operation }} Acquisition
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a href="/admin/acquisitions" class="btn btn-clean kt-margin-r-10">
+                            <span class="kt-hidden-mobile">Cancel</span>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-brand" id="btn-save">
+                                <i class="la la-check"></i>
+                                <span class="kt-hidden-mobile">{{ operation }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="kt-form" method="post">
+                    {% csrf_token %}
+                    <div class="kt-portlet__body">
+                        <div class="kt-section kt-section--first">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Organizations</label>
+                                <hr>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Acquirer*</label><br>
+                                {{ form.acquiring_organization.label_tag }}
+                                {{ form.acquiring_organization }}
+                                {{ form.acquiring_organization.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Acquiree*</label><br>
+                                {{ form.acquired_organization.label_tag }}
+                                {{ form.acquired_organization }}
+                                {{ form.acquired_organization.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Details</label>
+                                <hr>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Announced Date*</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.announced_date_year.label_tag }}
+                                        {{ form.announced_date_year }}
+                                        {{ form.announced_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.announced_date_month.label_tag }}
+                                        {{ form.announced_date_month }}
+                                        {{ form.announced_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.announced_date_day.label_tag }}
+                                        {{ form.announced_date_day }}
+                                        {{ form.announced_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Completed On Date</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.completed_date_year.label_tag }}
+                                        {{ form.completed_date_year }}
+                                        {{ form.completed_date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.completed_date_month.label_tag }}
+                                        {{ form.completed_date_month }}
+                                        {{ form.completed_date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.completed_date_day.label_tag }}
+                                        {{ form.completed_date_day }}
+                                        {{ form.completed_date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        {{ form.price.label_tag }}
+                                        {{ form.price }}
+                                        {{ form.price.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.currency.label_tag }}
+                                        {{ form.currency }}
+                                        {{ form.currency.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.acquisition_type.label_tag }}
+                                {{ form.acquisition_type }}
+                                {{ form.acquisition_type.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.acquisition_status.label_tag }}
+                                {{ form.acquisition_status }}
+                                {{ form.acquisition_status.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.disposition.label_tag }}
+                                {{ form.disposition }}
+                                {{ form.disposition.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.acquisition_term.label_tag }}
+                                {{ form.acquisition_term }}
+                                {{ form.acquisition_term.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" id="btn-submit-event" value="Submit" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!--end::Form-->
+            </div>
+        </div>
+
+        <!--end::Portlet-->
+    </div>
+    {{ form.media.js }}
+
+    <script>
+        $(function () {
+            $('#btn-save').on('click', function () {
+                $('#btn-submit-event').click();
+            });
+        });
+    </script>
+
+{% endblock %}

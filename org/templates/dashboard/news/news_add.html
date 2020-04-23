@@ -1,0 +1,265 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile"
+                 id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">{{ operation }} News
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a href="/admin/news" class="btn btn-clean kt-margin-r-10">
+                            <span class="kt-hidden-mobile">Cancel</span>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-brand" id="btn-save">
+                                <i class="la la-check"></i>
+                                <span class="kt-hidden-mobile">{{ operation }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="kt-form" method="post">
+                    {% csrf_token %}
+                    <div class="kt-portlet__body">
+                        <div class="kt-section kt-section--first">
+                            <div class="form-group">
+                                {{ form.title.label_tag }}
+                                {{ form.title }}
+                                {{ form.title.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.url.label_tag }}
+                                {{ form.url }}
+                                {{ form.url.errors }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Date*</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.date_year.label_tag }}
+                                        {{ form.date_year }}
+                                        {{ form.date_year.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.date_month.label_tag }}
+                                        {{ form.date_month }}
+                                        {{ form.date_month.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.date_day.label_tag }}
+                                        {{ form.date_day }}
+                                        {{ form.date_day.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.publisher.label_tag }}
+                                {{ form.publisher }}
+                                {{ form.publisher.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.thumbnail_url.label_tag }}
+                                {{ form.thumbnail_url }}
+                                {{ form.thumbnail_url.errors }}
+                            </div>
+                            <div class="form-row">
+                                <label>Mentions</label>
+                            </div>
+                            <script type="text/html" id="item-template">
+                                <div id="item-__prefix__" class="item">
+                                    <div class="form-group li-container">
+                                        {#                                        {{ mention_form_set.empty_form.mention_type.label_tag }}#}
+                                        {{ mention_form_set.empty_form.mention_type }}
+                                        {{ mention_form_set.empty_form.mention_type.errors }}
+                                    </div>
+                                    <div class="form-group selection-container person-container">
+                                        {#                                        {{ mention_form_set.empty_form.person.label_tag }}#}
+                                        {{ mention_form_set.empty_form.person }}
+                                        {{ mention_form_set.empty_form.person.errors }}
+                                    </div>
+                                    <div class="form-group selection-container organization-container">
+                                        {#                                        {{ mention_form_set.empty_form.organization.label_tag }}#}
+                                        {{ mention_form_set.empty_form.organization }}
+                                        {{ mention_form_set.empty_form.organization.errors }}
+                                    </div>
+                                    <div class="form-group selection-container platform-container">
+                                        {#                                        {{ mention_form_set.empty_form.platform.label_tag }}#}
+                                        {{ mention_form_set.empty_form.platform }}
+                                        {{ mention_form_set.empty_form.platform.errors }}
+                                    </div>
+                                    <div class="form-group selection-container funding_round-container">
+                                        {#                                        {{ mention_form_set.empty_form.funding_round.label_tag }}#}
+                                        {{ mention_form_set.empty_form.funding }}
+                                        {{ mention_form_set.empty_form.funding.errors }}
+                                    </div>
+                                    <div class="form-group selection-container acquisition-container">
+                                        {#                                        {{ mention_form_set.empty_form.acquisition.label_tag }}#}
+                                        {{ mention_form_set.empty_form.acquisition }}
+                                        {{ mention_form_set.empty_form.acquisition.errors }}
+                                    </div>
+                                    <div class="form-group selection-container event-container">
+                                        {#                                        {{ mention_form_set.empty_form.event.label_tag }}#}
+                                        {{ mention_form_set.empty_form.event }}
+                                        {{ mention_form_set.empty_form.event.errors }}
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        {#                                      {{ mention_form.event.label_tag }}#}
+                                        {{ mention_form_set.empty_form.deleted }}
+                                        {{ mention_form_set.empty_form.deleted.errors }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-danger delete-participant" data-id="__prefix__">Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </script>
+                            {{ mention_form_set.management_form }}
+                            <div id="items-form-container">
+                                {% for mention_form in mention_form_set %}
+                                    <div id="item-{{ forloop.counter0 }}" class="item">
+                                        {{ mention_form.id }}
+                                        <div class="form-group li-container">
+                                            {#                                            {{ mention_form.mention_type.label_tag }}#}
+                                            {{ mention_form.mention_type }}
+                                            {{ mention_form.mention_type.errors }}
+                                        </div>
+                                        <div class="form-group selection-container person-container
+                                        {% if mention_form.mention_type.value == 'person' %} shown {% endif %}">
+                                            {#                                            {{ mention_form.person.label_tag }}#}
+                                            {{ mention_form.person }}
+                                            {{ mention_form.person.errors }}
+                                        </div>
+                                        <div class="form-group selection-container organization-container
+                                        {% if mention_form.mention_type.value == 'organization' %} shown {% endif %}">
+                                            {#                                            {{ mention_form.organization.label_tag }}#}
+                                            {{ mention_form.organization }}
+                                            {{ mention_form.organization.errors }}
+                                        </div>
+                                        <div class="form-group selection-container platform-container
+                                        {% if mention_form.mention_type.value == 'platform' %} shown {% endif %}">
+                                            {#                                            {{ mention_form.platform.label_tag }}#}
+                                            {{ mention_form.platform }}
+                                            {{ mention_form.platform.errors }}
+                                        </div>
+                                        <div class="form-group selection-container funding_round-container
+                                        {% if mention_form.mention_type.value == 'funding_round' %} shown {% endif %}">
+                                            {#                                            {{ mention_form.funding_round.label_tag }}#}
+                                            {{ mention_form.funding }}
+                                            {{ mention_form.funding.errors }}
+                                        </div>
+                                        <div class="form-group selection-container acquisition-container
+                                        {% if mention_form.mention_type.value == 'acquisition' %} shown {% endif %}">
+                                            {#                                            {{ mention_form.acquisition.label_tag }}#}
+                                            {{ mention_form.acquisition }}
+                                            {{ mention_form.acquisition.errors }}
+                                        </div>
+                                        <div class="form-group selection-container event-container
+                                        {% if mention_form.mention_type.value == 'event' %} shown {% endif %}">
+                                            {#                                            {{ mention_form.event.label_tag }}#}
+                                            {{ mention_form.event }}
+                                            {{ mention_form.event.errors }}
+                                        </div>
+                                        <div class="form-group" style="display: none">
+                                            {#                                            {{ mention_form.event.label_tag }}#}
+                                            {{ mention_form.deleted }}
+                                            {{ mention_form.deleted.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-danger delete-participant"
+                                                    data-id="{{ forloop.counter0 }}">Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <button id="add-item-button" class="btn btn-info add-item">Add Mention</button>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="btn-submit-event" value="Submit" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!--end::Form-->
+            </div>
+        </div>
+
+        <!--end::Portlet-->
+    </div>
+
+
+    <script>
+        (function () {
+
+            $('.add-item').click(function (ev) {
+                ev.preventDefault();
+                var count = $('#items-form-container').children().length;
+                var tmplMarkup = $('#item-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('#items-form-container').append(compiledTmpl);
+                $("#item-" + count).find('.django-select2').djangoSelect2();
+                // update form count
+                $('#id_mention-TOTAL_FORMS').attr('value', count + 1);
+            });
+
+
+            $('#btn-save').on('click', function () {
+                $('#btn-submit-event').click();
+
+            });
+
+            $('#items-form-container').on('click', '.delete-participant', function (e) {
+                e.preventDefault();
+                var itemId = $(this).attr('data-id');
+                var totalP = $('#items-form-container').find('.item').length;
+                console.log(totalP);
+                if (totalP > 1) {
+                    $('#items-form-container').find('#item-' + itemId).hide();
+                    $('#items-form-container').find('#item-' + itemId).find('.deleted').prop("selectedIndex", 1);
+                    {#var c = parseInt($('#id_cool-TOTAL_FORMS').attr('value')) - 1;#}
+                    {#$('#id_cool-TOTAL_FORMS').attr('value', c);#}
+                }
+            });
+
+            $("#items-form-container").on('click', '.radio-mention-type', function (e) {
+                e.stopPropagation();
+                var pId = $(this).closest('.item').attr("id");
+                var $el = $('#' + pId);
+                var v = ($(this).val());
+                showSelectOption($el, v);
+            });
+
+            function showSelectOption($element, type) {
+                if (type === "") {
+                    $element.find('.selection-container').not('.shown').hide();
+                } else {
+                    $element.find('.selection-container').hide();
+                    $element.find('.' + type + '-container').show();
+                }
+            }
+
+            function show() {
+                var $el = $('.item');
+                showSelectOption($el, "");
+            }
+
+            show();
+
+        }());
+    </script>
+{% endblock %}

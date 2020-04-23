@@ -1,0 +1,308 @@
+{% extends 'frontend/frontend_base.html' %}
+{% load custom_tags %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Portlet-->
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile"
+                 id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title"> {{ platform.name }}
+                        </h3>
+                    </div>
+                </div>
+                <!-- begin:: Content -->
+                <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+                    <!--begin:: Portlet-->
+{#                    <div class="kt-portlet ">#}
+{#                        <div class="kt-portlet__body">#}
+{#                            <div class="kt-widget kt-widget--user-profile-3">#}
+{#                                <div class="kt-widget__top">#}
+{#                                    <div class="kt-widget__media kt-hidden-">#}
+{#                                        {% if platform.profile_image %}#}
+{#                                            <img src="{{ platform.profile_image.url }}" width="100px" height="100px"#}
+{#                                                 alt="">#}
+{#                                        {% else %}#}
+{#                                            <img src="" alt="N/A">#}
+{#                                        {% endif %}#}
+{#                                    </div>#}
+{#                                    <div class="kt-widget__content">#}
+{#                                        <div class="kt-widget__head">#}
+{#                                            <a href="#" class="kt-widget__title">{{ platform.name }}</a>#}
+{#                                        </div>#}
+{#                                        <div class="kt-widget__info">#}
+{#                                            <div class="kt-widget__desc">#}
+{#                                                {{ platform.description }}#}
+{#                                            </div>#}
+{##}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="kt-widget__bottom">#}
+{#                                    <div class="kt-widget__item">#}
+{#                                        <div class="kt-widget__icon">#}
+{#                                            Owned By#}
+{#                                        </div>#}
+{#                                        <div class="kt-widget__details">#}
+{#                                            ABC#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+
+                    <!--end:: Portlet-->
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <!--begin:: Widgets/Tasks -->
+                            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                                <div class="kt-portlet__head">
+                                    <div class="kt-portlet__head-label">
+                                        <h3 class="kt-portlet__head-title">
+                                            Overview
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="kt-portlet__body">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            {% if platform.profile_image %}
+                                            <img src="{{ platform.profile_image.url }}" width="100px" height="100px"
+                                                 alt="">
+                                        {% else %}
+                                            <img src="" alt="N/A">
+                                        {% endif %}
+                                        </div>
+                                        <div class="col-md-11">
+                                            <a class="b-title">{{ platform.name }}</a>
+                                            <p>{{ platform.description }}</p>
+                                        </div>
+                                    </div>
+                                    {% if platform.owned_by_organization is not None %}
+                                        <div class="row">
+                                            <div class="col-md-1">Owned By</div>
+                                            <div class="col-md-11">
+                                                <a href="/organizations/{{ platform.owned_by_organization.id }}">{{ platform.owned_by_organization.name }}</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.platform_business_model_type is not None %}
+                                        <div class="row">
+                                            <div class="col-md-1">Type</div>
+                                            <div class="col-md-11">
+                                                <p>{{ platform.platform_business_model_type.name }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.platform_business_model_type is not None %}
+                                        <div class="row">
+                                            <div class="col-md-1">Categories</div>
+                                            <div class="col-md-11">
+                                                {{ platform.platformcategory_set.all | formatted_sub_categories }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if founded_date != '' %}
+                                        <div class="row">
+                                            <div class="col-md-1">Founded Date</div>
+                                            <div class="col-md-11">
+                                                <p>{{ founded_date }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if closed_date != '' %}
+                                        <div class="row">
+                                            <div class="col-md-1">Closed Date</div>
+                                            <div class="col-md-11">
+                                                <p>{{ closed_date }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.platform_business_model_type is not None %}
+                                        <div class="row">
+                                            <div class="col-md-1">Type</div>
+                                            <div class="col-md-11">
+                                                <p>{{ platform.platform_business_model_type.name }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!--end:: Widgets/Tasks -->
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xl-12">
+
+                            <!--begin:: Widgets/Tasks -->
+                            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+
+                                <div class="kt-portlet__body">
+                                    {% if platform.producers != "" %}
+                                        <div class="row">
+                                            <div class="col-md-1">Producers</div>
+                                            <div class="col-md-11">
+                                                <p>{{ platform.producers }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.consumers != "" %}
+                                        <div class="row">
+                                            <div class="col-md-1">Consumers</div>
+                                            <div class="col-md-11">
+                                                <p>{{ platform.consumers }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.partners != "" %}
+                                        <div class="row">
+                                            <div class="col-md-1">Partners</div>
+                                            <div class="col-md-11">
+                                                <p>{{ platform.partners }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.transactions != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Transactions</div>
+                                            <div class="col-md-9">
+                                                <p>{{ platform.transactions }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.value != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Value</div>
+                                            <div class="col-md-9">
+                                                <p>{{ platform.value }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.network_effects != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Network Effects</div>
+                                            <div class="col-md-9">
+                                                <p>{{ platform.network_effects }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!--end:: Widgets/Tasks -->
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xl-12">
+                            <!--begin:: Widgets/Tasks -->
+                            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                                <div class="kt-portlet__body">
+                                    {% if platform.website != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Website</div>
+                                            <div class="col-md-9">
+                                                <p><a href="{{ platform.website }}" target="_blank">{{ platform.website }}</a></p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.facebook != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Facebook</div>
+                                            <div class="col-md-9">
+                                                <p><a href="{{ platform.facebook }}" target="_blank">{{ platform.facebook }}</a></p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.linkedin != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Linkedin</div>
+                                            <div class="col-md-9">
+                                                <p><a href="{{ platform.linkedin }}" target="_blank">{{ platform.linkedin }}</a></p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.twitter != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Twitter</div>
+                                            <div class="col-md-9">
+                                                <p><a href="{{ platform.twitter }}" target="_blank">{{ platform.twitter }}</a></p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.contact_email != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Contact Email</div>
+                                            <div class="col-md-9">
+                                                <p><a href="mailto:{{ platform.contact_email }}">{{ platform.contact_email }}</a></p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if platform.phone_number != "" %}
+                                        <div class="row">
+                                            <div class="col-md-3">Phone Number</div>
+                                            <div class="col-md-9">
+                                                <p>{{ platform.phone_number }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!--end:: Widgets/Tasks -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <!--begin:: Widgets/Tasks -->
+                            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                                <div class="kt-portlet__body">
+                                    {% if platform.full_description != "" %}
+                                        <div class="row">
+                                            <div class="col-md-1">Full Description</div>
+                                            <div class="col-md-11">
+                                                <p>{{ platform.full_description }}</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!--end:: Widgets/Tasks -->
+                        </div>
+                    </div>
+
+                    {#                    <div class="row">#}
+                    {##}
+                    {#                        <div class="col-xl-12">#}
+                    {##}
+                    {#                            <!--begin:: Widgets/Tasks -->#}
+                    {#                            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">#}
+                    {#                                    <div class="kt-portlet__head">#}
+                    {#                                    <div class="kt-portlet__head-label">#}
+                    {#                                        <h3 class="kt-portlet__head-title">#}
+                    {#                                            Tasks#}
+                    {#                                        </h3>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                                <div class="kt-portlet__body">#}
+                    {#                                    <p>fh</p>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {##}
+                    {#                            <!--end:: Widgets/Tasks -->#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                </div>
+
+                <!-- end:: Content -->
+            </div>
+        </div>
+        <!--end::Portlet-->
+    </div>
+
+{% endblock %}
